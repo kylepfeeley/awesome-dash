@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "name": "awesome_dash_db",
+            "driver": "PostgreSQL",
+            "database": "awesome_dash_db",
+            "username": "postgres",
+            "password": "postgres"
+        }
+    ]
+}

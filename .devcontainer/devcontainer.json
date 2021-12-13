@@ -26,7 +26,11 @@
 	"extensions": [
 		"dbaeumer.vscode-eslint",
 		"mtxr.sqltools",
-		"mtxr.sqltools-driver-pg"
+		"mtxr.sqltools-driver-pg",
+		"prisma.prisma",
+		"wix.vscode-import-cost",
+		"esbenp.prettier-vscode",
+		"eamodio.gitlens"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [3000, 5432],
