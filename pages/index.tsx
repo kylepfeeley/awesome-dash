@@ -1,8 +1,24 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { AuthForm } from '../components/AuthForm'
+import { CreatePost } from '../components/CreatePost'
 import styles from '../styles/Home.module.css'
+import { useMe } from '../utils/hooks'
 
 export default function Home() {
+  const [loggedIn, setLoggedIn] = useState<boolean>(false)
+
+  const { me } = useMe();
+
+  useEffect(() => {
+    if (me) {
+      // we check if the query useMe() return an empty object
+      const isEmpty: boolean = Object.keys(me).length == 0;
+      isEmpty ? setLoggedIn(false) : setLoggedIn(true)
+    }
+  }, [me])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,9 +27,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1 className={styles.title}>
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
-      </h1>
+      {!loggedIn ? <AuthForm /> : <CreatePost />}
 
       <footer className={styles.footer}>
         <a
