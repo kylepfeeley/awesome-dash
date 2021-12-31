@@ -13,12 +13,12 @@ datasource db {
 model User {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
-  email     String
+  email     String    @unique
   password  String
   imageUrl  String?
   posts     Post[]
-  Comment   Comment[]
-  Like      Like[]
+  comments  Comment[]
+  likes     Like[]
 }
 
 model Post {

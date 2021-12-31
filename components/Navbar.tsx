@@ -12,14 +12,26 @@ import {
     useColorMode,
     useColorModeValue,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DISABLED_PROFILE_TEXT } from "../utils/constants";
+import { useMe } from "../utils/hooks";
 import LogoutButton from "./LogoutButton";
 import NavLink from "./NavLink";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     const [loggedIn, setLoggedIn] = useState(false);
+
+    const { me } = useMe();
+
+    useEffect(() => {
+        if (me) {
+            // we check if the query useMe() return an empty object
+            const isEmpty: boolean = Object.keys(me).length == 0;
+            isEmpty ? setLoggedIn(false) : setLoggedIn(true)
+        }
+    }, [me])
+
     return (
         <>
             <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>

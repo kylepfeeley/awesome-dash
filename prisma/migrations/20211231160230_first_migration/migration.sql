@@ -1,18 +1,13 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "imageUrl" TEXT,
 
-  - You are about to drop the column `name` on the `User` table. All the data in the column will be lost.
-  - Added the required column `password` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
--- DropIndex
-DROP INDEX "User_email_key";
-
--- AlterTable
-ALTER TABLE "User" DROP COLUMN "name",
-ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "imageUrl" TEXT,
-ADD COLUMN     "password" TEXT NOT NULL;
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Post" (
@@ -44,6 +39,9 @@ CREATE TABLE "Like" (
 
     CONSTRAINT "Like_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
