@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { serialize } from "cookie";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { serialize } from 'cookie';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const cookie = serialize("token", "", {
+  const cookie = serialize('token', '', {
     maxAge: -1,
-    path: "/",
+    path: '/'
   });
 
-  res.setHeader("Set-Cookie", cookie);
+  res.setHeader('Set-Cookie', cookie);
   res.json({ loggedOut: true });
 }
