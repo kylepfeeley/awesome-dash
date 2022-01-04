@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { AuthForm } from '../components/AuthForm';
 import { CreatePost } from '../components/CreatePost';
+import { Post } from '../components/Post';
 import styles from '../styles/Home.module.css';
 import { useMe } from '../utils/hooks';
 
@@ -28,6 +29,7 @@ export default function Home() {
       </Head>
 
       {!loggedIn ? <AuthForm /> : <CreatePost />}
+      <Post />
 
       <footer className={styles.footer}>
         <a

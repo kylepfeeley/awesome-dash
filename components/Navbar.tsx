@@ -71,7 +71,7 @@ const Navbar = () => {
                 icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               />
               <HStack direction={'row'}>
-                <Tooltip isDisabled={!loggedIn} hasArrow label={'user email'} bg={'green.600'}>
+                <Tooltip isDisabled={!loggedIn} hasArrow label={me?.email} bg={'green.600'}>
                   <Avatar
                     size={'sm'}
                     src={

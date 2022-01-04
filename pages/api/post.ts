@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       author: {
         select: {
           email: true,
-          password: true
+          id: true
         }
       },
       likes: {
@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           author: {
             select: {
               email: true,
-              password: true
+              id: true
             }
           }
         }
@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           author: {
             select: {
               email: true,
-              password: true
+              id: true
             }
           }
         }
