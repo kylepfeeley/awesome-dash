@@ -48,3 +48,17 @@ export interface ReadMoreButtonProps {
   id: number;
   comments: CommentProps;
 }
+
+export interface PostIdProps {
+  post: PostProps;
+}
+export interface PostDetailProps {
+  id: number;
+  pst: PostProps;
+  authorId: number;
+}
+
+export interface BlogAuthorProps {
+  date: string;
+  name: string;
+}

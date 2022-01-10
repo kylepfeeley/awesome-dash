@@ -20,7 +20,11 @@
         "password": "postgres"
       }
     ],
-    "remote.containers.dotfiles.repository": "https://github.com/daniellaera/test-dotfiles.git"
+    "remote.containers.dotfiles.repository": "https://github.com/daniellaera/test-dotfiles.git",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "workbench.editor.titleScrollbarSizing": "large"
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
@@ -28,6 +32,7 @@
     "mtxr.sqltools",
     "mtxr.sqltools-driver-pg",
     "prisma.prisma",
+    "mutantdino.resourcemonitor",
     "wix.vscode-import-cost",
     "esbenp.prettier-vscode",
     "eamodio.gitlens"
