@@ -62,3 +62,14 @@ export interface BlogAuthorProps {
   date: string;
   name: string;
 }
+
+export interface LikeButtonProps {
+  childToParent(success: boolean): any;
+  id: number;
+  authorId: number;
+}
+
+export interface CommentButtonProps {
+  id: number;
+  comments: CommentProps;
+}

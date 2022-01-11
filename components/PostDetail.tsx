@@ -1,11 +1,13 @@
 import { Avatar, Box, Center, Divider, Flex, HStack, Image, Stack, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
 import { BlogAuthorProps, CommentProps, PostDetailProps } from '../types/props';
 import { truncate } from '../utils/functions';
 import { useMe } from '../utils/hooks';
 import { AuthForm } from './AuthForm';
 import CommentForm from './CommentForm';
+import LikeButton from './LikeButton';
 
 export const BlogAuthor: React.FC<BlogAuthorProps> = props => {
     return (
@@ -23,10 +25,23 @@ export const BlogAuthor: React.FC<BlogAuthorProps> = props => {
     );
 };
 
-const PostDetail = ({ pst, id, authorId }: PostDetailProps) => {
+export default function useQuery() {
+    const router = useRouter();
+
+    const hasQueryParams = /\[.+\]/.test(router.route) || /\?./.test(router.asPath);
+    const ready = !hasQueryParams || Object.keys(router.query).length > 0;
+
+    if (!ready) return null;
+
+    return router.query;
+}
+
+export const PostDetail = ({ pst, id, authorId }: PostDetailProps) => {
     const toast = useToast();
+    const router = useRouter();
     const { me } = useMe();
     const [loggedIn, setLoggedIn] = useState(false);
+    const [isDynamicRoute, setIsDynamicRoute] = useState(false);
 
     const color = useColorModeValue('white', 'gray.900');
 
@@ -37,6 +52,35 @@ const PostDetail = ({ pst, id, authorId }: PostDetailProps) => {
             isEmpty ? setLoggedIn(false) : setLoggedIn(true);
         }
     }, [me]);
+
+    // dynamic query for route to implement?
+    // check this https://github.com/vercel/next.js/issues/8259#issuecomment-650225962
+    const query = useQuery();
+
+    useEffect(() => {
+        if (!query) {
+            return;
+        }
+        setIsDynamicRoute(query ? Object.keys(query).length > 0 : false);
+    }, [query, isDynamicRoute]);
+
+    // we retrieve a callback typeof data from the LikeButtonChild component
+    const handleClick = useCallback(
+        errorFromChild => {
+            const isErrorAsString = typeof errorFromChild === 'string';
+            const likedSuccess = 'Liked with success!';
+            toast({
+                position: 'top',
+                title: `${isErrorAsString ? `Warning` : `Success`}`,
+                description: `${isErrorAsString ? `${errorFromChild}` : `${likedSuccess}`}`,
+                status: `${isErrorAsString ? `warning` : `success`}`,
+                duration: 5000,
+                isClosable: true
+            });
+            router.push(`/post/${id}`, `/post/${id}`)
+        },
+        [toast]
+    );
 
     return (
         <>
@@ -71,7 +115,7 @@ const PostDetail = ({ pst, id, authorId }: PostDetailProps) => {
                                     <Text fontSize={'sm'} color={'gray.500'}>
                                         {pst.likes?.length}
                                     </Text>
-                                    {/* <LikeButton childToParent={handleClick} id={id} authorId={authorId} /> */}
+                                    <LikeButton childToParent={handleClick} id={id} authorId={authorId} />
                                 </Stack>
                             </Stack>
 
@@ -80,7 +124,10 @@ const PostDetail = ({ pst, id, authorId }: PostDetailProps) => {
                 </Stack>
             </Flex>
 
-            {!loggedIn ? <AuthForm /> : <CommentForm id={pst.id} />}
+            {/* comment form but when logged in */}
+            {/* otherwise we render the authform */}
+
+            {!loggedIn ? <AuthForm isOnRoute={isDynamicRoute} /> : <CommentForm id={pst.id} />}
 
             <Center height='20px'>
                 <Divider width={'80%'} orientation='horizontal' />
@@ -89,6 +136,7 @@ const PostDetail = ({ pst, id, authorId }: PostDetailProps) => {
             {/* we start the comment section here */}
 
             {pst.comments.map(({ author, text, createdAt }: CommentProps, i: number) => (
+                // <TestimonialCard key={i} />
                 <Flex key={i} align={'center'} justify={'center'}>
                     <Stack spacing={8} mx={'auto'} w={1200} px={6}>
                         <Center py={2}>
@@ -105,5 +153,3 @@ const PostDetail = ({ pst, id, authorId }: PostDetailProps) => {
         </>
     );
 };
-
-export default PostDetail;

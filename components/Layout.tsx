@@ -1,12 +1,13 @@
-import { layout } from '@chakra-ui/react';
 import Header from '../components/Header';
+import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
     <>
+      {/* <Meta Page here?? /> */}
       <Header />
-      <main>{children}</main>
-      {/* Footer */}
+      <main className="main-body">{children}</main>
+      <Footer />
     </>
   );
 };

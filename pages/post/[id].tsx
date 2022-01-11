@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import PostDetail from "../../components/PostDetail";
+import { PostDetail } from "../../components/PostDetail";
 import prisma from "../../lib/prisma";
 import { PostIdProps } from "../../types/props";
 

@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { mutate } from 'swr';
 import { fetcher } from '../utils/fetcher';
 
-export const AuthForm = () => {
+export const AuthForm = ({ isOnRoute }) => {
   const toast = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -69,9 +69,15 @@ export const AuthForm = () => {
       <Flex minH={'50vh'} align={'center'} justify={'center'}>
         <Stack spacing={8} mx={'auto'} w={600} maxW={'lg'} py={12} px={6}>
           <Stack align={'center'}>
-            <Text fontSize={'lg'} color={'gray.600'}>
-              {authButtonState ? 'Login to your account' : 'Sign up to your account'}
-            </Text>
+            {isOnRoute ? (
+              <Text fontSize={'lg'} color={'gray.600'}>
+                {authButtonState ? 'Login to your account for commenting' : 'Sign up to your account for commenting'} ✌️
+              </Text>
+            ) : (
+              <Text fontSize={'lg'} color={'gray.600'}>
+                {authButtonState ? 'Login to your account' : 'Sign up to your account'} ✌️
+              </Text>
+            )}
           </Stack>
           <Box rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={'lg'} p={8}>
             <Stack spacing={4}>

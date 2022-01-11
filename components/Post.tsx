@@ -1,9 +1,12 @@
 import { Avatar, Box, Center, Flex, Progress, Stack, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import moment from 'moment';
+import { useCallback } from 'react';
 import { PostProps } from '../types/props';
 import { truncate } from '../utils/functions';
 import { useMe, usePost } from '../utils/hooks';
+import { CommentButton } from './CommentButton';
 import { DeleteButton } from './DeleteButton';
+import LikeButton from './LikeButton';
 import { ReadmoreButton } from './ReadMoreButton';
 
 export const Post = () => {
@@ -11,6 +14,22 @@ export const Post = () => {
     const { post } = usePost();
     const { me } = useMe();
     const color = useColorModeValue('white', 'gray.900');
+
+    const handleClick = useCallback(
+        errorFromChild => {
+            const isErrorAsString = typeof errorFromChild === 'string';
+            const likedSuccess = 'Liked with success!';
+            toast({
+                position: 'top',
+                title: `${isErrorAsString ? `Warning` : `Success`}`,
+                description: `${isErrorAsString ? `${errorFromChild}` : `${likedSuccess}`}`,
+                status: `${isErrorAsString ? `warning` : `success`}`,
+                duration: 5000,
+                isClosable: true
+            })
+        },
+        [toast]
+    )
 
     return post ? (
         <Flex align={'center'} justify={'center'}>
@@ -46,13 +65,13 @@ export const Post = () => {
                                     <Text fontSize={'sm'} color={'gray.500'}>
                                         {likes?.length}
                                     </Text>
-                                    {/* LikeButton */}
+                                    <LikeButton childToParent={handleClick} id={id} authorId={authorId} />
                                 </Stack>
                                 <Stack spacing={0} align={'center'}>
                                     <Text fontSize={'sm'} color={'gray.500'}>
                                         {comments?.length}
                                     </Text>
-                                    {/* <CommentButton /> */}
+                                    <CommentButton id={id} comments={comments} />
                                 </Stack>
                             </Stack>
 
